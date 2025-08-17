@@ -32,5 +32,5 @@ COPY --from=builder /app/target/*.jar app.jar
 # Expose the application port (adjust if different in application.properties)
 EXPOSE 8082
 
-# Define the startup command to run the Spring Boot application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# The command to run the application with the prod profile active
+ENTRYPOINT ["java", "-jar", "app.jar", "--spring.profiles.active=prod"]
