@@ -26,8 +26,8 @@ steps:
       - 'run'
       - '--filename=deployment.yaml'
       - '--image=asia-east1-docker.pkg.dev/$PROJECT_ID/gcp-beat-order-artifact-repo/gcp-beat-order-service-image:$COMMIT_SHA'
-      - '--location=asia-east1-b' # Replace with your cluster's zone
-      - '--cluster=your-gke-cluster-name' # Replace with your GKE cluster name
+      - '--location=asia-east1' # Replace with your cluster's zone
+      - '--cluster=gcp-beat-autopilot-cluster' # Replace with your GKE cluster name
 
 images:
   - 'asia-east1-docker.pkg.dev/$PROJECT_ID/gcp-beat-order-artifact-repo/gcp-beat-order-service-image:$COMMIT_SHA'
