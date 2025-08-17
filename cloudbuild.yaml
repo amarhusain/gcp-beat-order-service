@@ -18,10 +18,10 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'push'
-      - 'asia-east1-docker.pkg.dev/$PROJECT_ID/gcp-beat-order-artifact-repo/gcp-beat-order-service-image:$COMMIT_SHA']
+      - 'asia-east1-docker.pkg.dev/$PROJECT_ID/gcp-beat-order-artifact-repo/gcp-beat-order-service-image:$COMMIT_SHA'
 
   # Step 4: Deploy the image to GKE
-  - name: 'gcr.io/cloud-builders/gke-deploy '
+  - name: 'gcr.io/cloud-builders/gke-deploy'
     args:
       - 'run'
       - '--filename=deployment.yaml'
