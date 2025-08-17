@@ -3,8 +3,8 @@ options:
 steps:
   # Step 1: Build the Java application using Maven
   - name: 'maven:3.9.9-eclipse-temurin-21'
-  - entrypoint: 'mvn'
-  - args: [ 'package' ]
+    entrypoint: 'mvn'
+    args: ['package']
   # Step 1: Build the Docker image
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'asia-east1-docker.pkg.dev/$PROJECT_ID/gcp-beat-order-artifact-repo/gcp-beat-order-service-image:$COMMIT_SHA', '.']
