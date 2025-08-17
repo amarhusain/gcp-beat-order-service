@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gcp-beat-order-service
+spec:
+  replicas: 2 # You can adjust this to scale your application
+  selector:
+    matchLabels:
+      app: gcp-beat-order-service
+  template:
+    metadata:
+      labels:
+        app: gcp-beat-order-service
+    spec:
+      containers:
+        - name: gcp-beat-order-service
+          image: asia-east1-docker.pkg.dev/$PROJECT_ID/gcp-beat-order-artifact-repo/gcp-beat-order-service-image:$COMMIT_SHA
+          ports:
+            - containerPort: 8082 # The port your Spring Boot app is listening on
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: prod
+          # It's a best practice to use Kubernetes Secrets for sensitive data
+          # instead of hardcoding them in the YAML file.
+          # For example:
+          # - name: DB_USER
+          #   valueFrom:
+          #     secretKeyRef:
+          #       name: db-credentials
+          #       key: username
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gcp-beat-order-service
+spec:
+  type: LoadBalancer # Creates a public IP address to access your app
+  selector:
+    app: gcp-beat-order-service
+  ports:
+    - protocol: TCP
+      port: 80 # External port for the load balancer
+      targetPort: 8082 # Internal port of the container

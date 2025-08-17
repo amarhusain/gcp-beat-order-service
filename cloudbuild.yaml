@@ -5,11 +5,29 @@ steps:
   - name: 'maven:3.9.9-eclipse-temurin-21'
     entrypoint: 'mvn'
     args: ['package', '-DskipTests']
-  # Step 1: Build the Docker image
+
+  # Step 2: Build the Docker image
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'asia-east1-docker.pkg.dev/$PROJECT_ID/gcp-beat-order-artifact-repo/gcp-beat-order-service-image:$COMMIT_SHA', '.']
-  # Step 2: Push the image to Artifact Registry
+    args:
+      - 'build'
+      - '-t'
+      - 'asia-east1-docker.pkg.dev/$PROJECT_ID/gcp-beat-order-artifact-repo/gcp-beat-order-service-image:$COMMIT_SHA'
+      - '.'
+
+  # Step 3: Push the image to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'asia-east1-docker.pkg.dev/$PROJECT_ID/gcp-beat-order-artifact-repo/gcp-beat-order-service-image:$COMMIT_SHA']
+    args:
+      - 'push'
+      - 'asia-east1-docker.pkg.dev/$PROJECT_ID/gcp-beat-order-artifact-repo/gcp-beat-order-service-image:$COMMIT_SHA']
+
+  # Step 4: Deploy the image to GKE
+  - name: 'gcr.io/cloud-builders/gke-deploy '
+    args:
+      - 'run'
+      - '--filename=deployment.yaml'
+      - '--image=asia-east1-docker.pkg.dev/$PROJECT_ID/gcp-beat-order-artifact-repo/gcp-beat-order-service-image:$COMMIT_SHA'
+      - '--location=asia-east1-b' # Replace with your cluster's zone
+      - '--cluster=your-gke-cluster-name' # Replace with your GKE cluster name
+
 images:
   - 'asia-east1-docker.pkg.dev/$PROJECT_ID/gcp-beat-order-artifact-repo/gcp-beat-order-service-image:$COMMIT_SHA'
