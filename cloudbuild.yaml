@@ -20,11 +20,20 @@ steps:
       - 'push'
       - 'asia-east1-docker.pkg.dev/$PROJECT_ID/gcp-beat-order-artifact-repo/gcp-beat-order-service-image:$COMMIT_SHA'
 
+  # Step 4: Substitute variables in deployment.yaml
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        # Use envsubst to replace the variables in the manifest and create a new file
+        envsubst < deployment.yaml > deployment-resolved.yaml
+
   # Step 4: Deploy the image to GKE
   - name: 'gcr.io/cloud-builders/gke-deploy'
     args:
       - 'run'
-      - '--filename=deployment.yaml'
+      - '--filename=deployment-resolved.yaml'
       - '--image=asia-east1-docker.pkg.dev/$PROJECT_ID/gcp-beat-order-artifact-repo/gcp-beat-order-service-image:$COMMIT_SHA'
       - '--location=asia-east1' # Replace with your cluster's zone
       - '--cluster=gcp-beat-autopilot-cluster' # Replace with your GKE cluster name
