@@ -27,6 +27,7 @@ steps:
       - '-c'
       - |
         # Use envsubst to replace the variables in the manifest and create a new file
+        apt-get update && apt-get install -y gettext-base
         envsubst < deployment.yaml > deployment-resolved.yaml
 
   # Step 4: Deploy the image to GKE
