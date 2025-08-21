@@ -21,16 +21,17 @@ steps:
       - 'asia-east1-docker.pkg.dev/$PROJECT_ID/gcp-beat-order-artifact-repo/gcp-beat-order-service-image:$COMMIT_SHA'
 
   # Step 4: Substitute variables in deployment.yaml
-  - name: 'gcr.io/cloud-builders/gcloud'
-    entrypoint: 'bash'
+  - name: 'alpine'
+    entrypoint: 'sh'
     args:
       - '-c'
       - |
-        # Use envsubst to replace the variables in the manifest and create a new file
-        apt-get update && apt-get install -y gettext-base
+        apk add --no-cache gettext
+        export PROJECT_ID=$PROJECT_ID
+        export COMMIT_SHA=$COMMIT_SHA
         envsubst < deployment.yaml > deployment-resolved.yaml
 
-  # Step 4: Deploy the image to GKE
+  # Step 5: Deploy the image to GKE
   - name: 'gcr.io/cloud-builders/gke-deploy'
     args:
       - 'run'
