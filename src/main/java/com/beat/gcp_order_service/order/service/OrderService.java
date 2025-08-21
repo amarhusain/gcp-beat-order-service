@@ -49,7 +49,7 @@ public class OrderService {
             pubSubTemplate.publish(topicName, message);
             System.out.println("Published message to topic: " + topicName);
         } catch (Exception e) {
-            throw new RuntimeException("Failed to publish message", e);
+            throw new RuntimeException("Failed to publishe message", e);
         }
 
         return new OrderResponse(
