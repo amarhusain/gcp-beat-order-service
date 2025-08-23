@@ -44,7 +44,7 @@ spec:
           args:
             - "--port=5432"
             - "--private-ip"
-            - "beat-test-468617:asia-east1:gcp-beat-postgresql-instance-id=tcp:5432"
+            - "beat-test-468617:asia-east1:gcp-beat-postgresql-instance-id"
           securityContext:
              runAsNonRoot: true
           # The proxy will use a service account with the appropriate Cloud SQL Client IAM role.
