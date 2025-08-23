@@ -12,6 +12,8 @@ spec:
       labels:
         app: gcp-beat-order-service
     spec:
+      # Use the Kubernetes Service Account bound to your GCP service account
+      serviceAccountName: gkesa-cloudsql
       containers:
         # Your backend application container
         - name: gcp-beat-order-service
