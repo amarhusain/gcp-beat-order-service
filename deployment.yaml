@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: gcp-beat-order-service
 spec:
-  replicas: 2 # You can adjust this to scale your application
+  replicas: 1 # You can adjust this to scale your application
   selector:
     matchLabels:
       app: gcp-beat-order-service
